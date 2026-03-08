@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Homework Helper</title>
+<style>
+body{
+font-family:Arial;
+text-align:center;
+background:#f2f2f2;
+padding:40px;
+}
+
+textarea{
+width:80%;
+height:120px;
+padding:10px;
+}
+
+button{
+padding:10px 20px;
+margin-top:10px;
+cursor:pointer;
+}
+
+#answer{
+margin-top:20px;
+background:white;
+padding:20px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>📚 AI Homework Helper</h1>
+
+<textarea id="question" placeholder="Type your homework question"></textarea>
+
+<br>
+
+<button onclick="askAI()">Get Answer</button>
+
+<div id="answer"></div>
+
+<script>
+
+async function askAI(){
+
+let question = document.getElementById("question").value;
+
+let response = await fetch("https://openrouter.ai/api/v1/chat/completions",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json",
+"Authorization":"Bearer "
+},
+
+sk-or-v1-6ff87a5a8f9cf8f0049910a9449c56ff82cfbf9fade383a181cd5941820e8b3dbody:JSON.stringify({
+model:"openai/gpt-3.5-turbo",
+messages:[
+{role:"user",content:question}
+]
+})
+
+});
+
+let data = await response.json();
+
+document.getElementById("answer").innerText =
+data.choices[0].message.content;
+
+}
+
+</script>
+
+</body>
+</html>
